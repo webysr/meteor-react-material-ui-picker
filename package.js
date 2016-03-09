@@ -13,6 +13,7 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.3-beta.11');
   api.use('ecmascript@0.4.0-beta.11');
+  api.use('react-meteor-data@0.2.5');
   api.use('webysr:googleapis-pub');
 
   api.addFiles(['lib/FilePicker.jsx']);
