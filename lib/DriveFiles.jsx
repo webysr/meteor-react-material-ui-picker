@@ -1,0 +1,1 @@
+export default DriveFiles = new Mongo.Collection('drive.files');
