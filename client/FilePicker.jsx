@@ -1,43 +1,92 @@
 import React from 'react';
-import Dialog from 'material-ui/lib/dialog';
-import FlatButton from 'material-ui/lib/flat-button';
 import DriveFiles from './DriveFiles.jsx';
+import Dialog from 'material-ui/lib/dialog';
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
+import Avatar from 'material-ui/lib/avatar';
+import FileFolder from 'material-ui/lib/svg-icons/file/folder';
+import EditorInsertDriveFile from 'material-ui/lib/svg-icons/editor/insert-drive-file';
+import KeyboardArrowRight from 'material-ui/lib/svg-icons/hardware/keyboard-arrow-right';
+import FlatButton from 'material-ui/lib/flat-button';
+import IconButton from 'material-ui/lib/icon-button';
+import {blue500 as fileColor, grey400 as folderColor} from 'material-ui/lib/styles/colors';
+
+const MIME_TYPE_FOLDER = 'application/vnd.google-apps.folder';
 
 const FilePicker = React.createClass({
 
   propTypes: {
-    folderId: React.PropTypes.string.isRequired
+    initialFolderId: React.PropTypes.string.isRequired,
+    onFilePicked: React.PropTypes.func
   },
 
   mixins: [ReactMeteorData],
 
-  getMeteorData() {
-    let sub = Meteor.subscribe('drive.files.list', {
-      orderBy: 'title',
-      maxResults: 10,
-      q: `'${this.props.folderId}' in parents`,
-      fields: "items(id,defaultOpenWithLink,thumbnailLink,title)"
-    });
-
+  getDefaultProps() {
     return {
-      ready: sub.ready(),
-      driveFiles: DriveFiles.find({}).fetch()
+      onFilePicked: () => 0
     }
   },
 
-
   getInitialState() {
     return {
-      open: false
+      open: false,
+      folderId: null
     };
   },
 
-  open() {
-    this.setState({open: true});
+  getMeteorData() {
+    if (this.state.folderId) {
+      let sub = Meteor.subscribe('drive.files.list', {
+        orderBy: 'folder,title',
+        maxResults: 1000,
+        q: `'${this.state.folderId}' in parents and trashed != true`,
+        fields: "items(id,defaultOpenWithLink,mimeType,thumbnailLink,title)"
+      });
+
+      return {
+        ready: sub.ready(),
+        driveFiles: DriveFiles.find({}).fetch()
+      }
+    } else {
+      return {ready: false};
+    }
+  },
+
+  open(folderId) {
+    if (!folderId) {
+      this.setState({
+        open: true,
+        folderId: this.props.initialFolderId
+      });
+    } else {
+      this.setState({
+        open: true,
+        folderId
+      });
+    }
+  },
+
+  handleOpenFolder(folderId) {
+    this.setState({folderId});
   },
 
   handleClose() {
     this.setState({open: false});
+  },
+
+  handleFilePicked(file) {
+    this.props.onFilePicked(file);
+    this.handleClose();
+  },
+
+  getFileAvatar(file) {
+    switch(file.mimeType) {
+      case MIME_TYPE_FOLDER:
+        return (<Avatar icon={<FileFolder />} backgroundColor={folderColor} />);
+      default:
+        return (<Avatar icon={<EditorInsertDriveFile />} backgroundColor={fileColor} />);
+    }
   },
 
   renderActions() {
@@ -46,18 +95,28 @@ const FilePicker = React.createClass({
         label="Cancel"
         secondary={true}
         onTouchTap={this.handleClose}
-      />,
-      <FlatButton
-        label="Choose"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.handleClose}
-      />
-    ]
+      />]
   },
 
   renderFiles() {
-    return this.data.driveFiles.map((file) => <li key={file.id}>{file.title}</li>);
+    return this.data.driveFiles.map((file) => {
+      let props = {
+        key: file.id,
+        primaryText: file.title,
+        leftAvatar: this.getFileAvatar(file),
+        onTouchTap: this.handleFilePicked.bind(this, file)
+      };
+      if (file.mimeType == MIME_TYPE_FOLDER) {
+        props.rightIconButton = (
+          <IconButton
+            onTouchTap={this.handleOpenFolder.bind(this, file.id)}
+          >
+            <KeyboardArrowRight/>
+          </IconButton>
+        );
+      }
+      return <ListItem {...props}/>;
+    });
   },
 
   render() {
@@ -67,12 +126,15 @@ const FilePicker = React.createClass({
         open={this.state.open}
         title="Pick File"
         modal={false}
+        autoScrollBodyContent={true}
+        bodyStyle={{padding: 0}}
         actions={this.renderActions()}
+        onRequestClose={this.handleClose}
         {...props}>
         {this.data.ready ?
-        <ul>
+        <List>
           {this.renderFiles()}
-        </ul> : ''}
+        </List> : ''}
       </Dialog>
     );
   }
