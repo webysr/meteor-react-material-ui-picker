@@ -9,6 +9,7 @@ import EditorInsertDriveFile from 'material-ui/lib/svg-icons/editor/insert-drive
 import KeyboardArrowRight from 'material-ui/lib/svg-icons/hardware/keyboard-arrow-right';
 import FlatButton from 'material-ui/lib/flat-button';
 import IconButton from 'material-ui/lib/icon-button';
+import CircularProgress from 'material-ui/lib/circular-progress';
 import {blue500 as fileColor, grey400 as folderColor} from 'material-ui/lib/styles/colors';
 
 const MIME_TYPE_FOLDER = 'application/vnd.google-apps.folder';
@@ -134,7 +135,7 @@ const FilePicker = React.createClass({
         {this.data.ready ?
         <List>
           {this.renderFiles()}
-        </List> : ''}
+        </List> : <CircularProgress size={2} />}
       </Dialog>
     );
   }
