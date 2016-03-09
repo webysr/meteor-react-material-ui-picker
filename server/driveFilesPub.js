@@ -1,0 +1,1 @@
+Meteor.publishGoogleAPI('drive.files.list');
