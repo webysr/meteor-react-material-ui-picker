@@ -73,8 +73,12 @@ const FilePicker = React.createClass({
     }
   },
 
-  handleOpenFolder(folderId) {
+  rememberPrevFolderId(folderId) {
     this.prevFolderIds.push(this.state.folderId);
+  },
+
+  handleOpenFolder(folderId) {
+    this.rememberPrevFolderId(this.state.folderId);
     this.setState({folderId});
   },
 
@@ -85,6 +89,16 @@ const FilePicker = React.createClass({
   handleFilePicked(file) {
     this.props.onFilePicked(file);
     this.handleClose();
+  },
+
+  handleGoBack() {
+    let length = this.prevFolderIds.length;
+    if (length) {
+      let prevFolderId = this.prevFolderIds.splice(length - 1, 1);
+      this.setState({folderId: prevFolderId});
+    } else {
+      this.handleClose();
+    }
   },
 
   getFileAvatar(file) {
@@ -110,7 +124,7 @@ const FilePicker = React.createClass({
       <FlatButton
         label="Back"
         icon={<NavigationArrowBack />}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.handleGoBack}
       />
     );
   },
