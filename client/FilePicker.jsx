@@ -7,6 +7,7 @@ import Avatar from 'material-ui/lib/avatar';
 import FileFolder from 'material-ui/lib/svg-icons/file/folder';
 import EditorInsertDriveFile from 'material-ui/lib/svg-icons/editor/insert-drive-file';
 import KeyboardArrowRight from 'material-ui/lib/svg-icons/hardware/keyboard-arrow-right';
+import NavigationArrowBack from 'material-ui/lib/svg-icons/navigation/arrow-back';
 import FlatButton from 'material-ui/lib/flat-button';
 import IconButton from 'material-ui/lib/icon-button';
 import CircularProgress from 'material-ui/lib/circular-progress';
@@ -54,6 +55,10 @@ const FilePicker = React.createClass({
     }
   },
 
+  componentWillMount() {
+    this.prevFolderIds = [];
+  },
+
   open(folderId) {
     if (!folderId) {
       this.setState({
@@ -69,6 +74,7 @@ const FilePicker = React.createClass({
   },
 
   handleOpenFolder(folderId) {
+    this.prevFolderIds.push(this.state.folderId);
     this.setState({folderId});
   },
 
@@ -82,11 +88,11 @@ const FilePicker = React.createClass({
   },
 
   getFileAvatar(file) {
-    switch(file.mimeType) {
+    switch (file.mimeType) {
       case MIME_TYPE_FOLDER:
-        return (<Avatar icon={<FileFolder />} backgroundColor={folderColor} />);
+        return (<Avatar icon={<FileFolder />} backgroundColor={folderColor}/>);
       default:
-        return (<Avatar icon={<EditorInsertDriveFile />} backgroundColor={fileColor} />);
+        return (<Avatar icon={<EditorInsertDriveFile />} backgroundColor={fileColor}/>);
     }
   },
 
@@ -97,6 +103,16 @@ const FilePicker = React.createClass({
         secondary={true}
         onTouchTap={this.handleClose}
       />]
+  },
+
+  renderTitle() {
+    return (
+      <FlatButton
+        label="Back"
+        icon={<NavigationArrowBack />}
+        onTouchTap={this.handleClose}
+      />
+    );
   },
 
   renderFiles() {
@@ -125,7 +141,7 @@ const FilePicker = React.createClass({
     return (
       <Dialog
         open={this.state.open}
-        title="Pick File"
+        title={this.renderTitle()}
         modal={false}
         autoScrollBodyContent={true}
         bodyStyle={{padding: 0}}
@@ -135,7 +151,7 @@ const FilePicker = React.createClass({
         {this.data.ready ?
         <List>
           {this.renderFiles()}
-        </List> : <CircularProgress size={2} />}
+        </List> : <CircularProgress size={2}/>}
       </Dialog>
     );
   }
