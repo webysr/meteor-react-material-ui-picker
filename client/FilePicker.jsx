@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import DriveFiles from './DriveFiles.jsx';
 import Dialog from 'material-ui/lib/dialog';
 import List from 'material-ui/lib/lists/list';
@@ -19,6 +20,7 @@ const FilePicker = React.createClass({
 
   propTypes: {
     initialFolderId: React.PropTypes.string.isRequired,
+    apiRequestOverride: React.PropTypes.object,
     onFilePicked: React.PropTypes.func
   },
 
@@ -39,12 +41,24 @@ const FilePicker = React.createClass({
 
   getMeteorData() {
     if (this.state.folderId) {
-      let sub = Meteor.subscribe('drive.files.list', {
+      let APIRequest = {
         orderBy: 'folder,title',
         maxResults: 1000,
         q: `'${this.state.folderId}' in parents and trashed != true`,
         fields: "items(id,defaultOpenWithLink,mimeType,thumbnailLink,title)"
-      });
+      };
+
+      if (this.props.apiRequestOverride) {
+        _.forOwn(this.props.apiRequestOverride, (value, key) => {
+          if (key == 'q') {
+            APIRequest.q = value ? APIRequest.q + ' and ' + value : APIRequest.q;
+          } else {
+            APIRequest[key] = value || APIRequest[key]
+          }
+        });
+      }
+
+      let sub = Meteor.subscribe('drive.files.list', APIRequest);
 
       return {
         ready: sub.ready(),
