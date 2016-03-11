@@ -1,6 +1,6 @@
 Package.describe({
   name: 'webysr:react-material-ui-picker',
-  version: '1.0.0',
+  version: '1.1.0',
   summary: 'A simple file picker for Google Drive made with React and Material UI',
   git: 'https://github.com/webysr/meteor-react-material-ui-picker.git',
   documentation: 'README.md'
