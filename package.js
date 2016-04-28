@@ -1,20 +1,20 @@
 Package.describe({
   name: 'webysr:react-material-ui-picker',
-  version: '1.1.0',
+  version: '2.0.0',
   summary: 'A simple file picker for Google Drive made with React and Material UI',
   git: 'https://github.com/webysr/meteor-react-material-ui-picker.git',
   documentation: 'README.md'
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.3-beta.11');
-  api.use('ecmascript@0.4.0-beta.11');
-  api.use('mongo@1.1.4-beta.11');
-  api.use('react-meteor-data@0.2.5');
+  api.versionsFrom('1.3.2');
+  api.use('ecmascript@0.4.3');
+  api.use('mongo@1.1.7');
+  api.use('react-meteor-data@0.2.9');
   api.use('webysr:googleapis-pub@1.0.0');
 
   api.addFiles(['server/driveFilesPub.js'], 'server');
-  api.mainModule('client/FilePicker.jsx', 'client');
+  api.mainModule('client/FilePicker.js', 'client');
 });
 
 Package.onTest(function(api) {
