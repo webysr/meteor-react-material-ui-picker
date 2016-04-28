@@ -9,7 +9,7 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.3.2');
   api.use('ecmascript@0.4.3');
-  api.use('minimongo@1.0.16');
+  api.use('mongo@1.1.7');
   api.use('react-meteor-data@0.2.9');
   api.use('webysr:googleapis-pub@1.0.0');
 
