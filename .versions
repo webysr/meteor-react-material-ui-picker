@@ -25,7 +25,7 @@ htmljs@1.0.6-beta.11
 id-map@1.0.4
 jquery@1.11.5-beta.11
 jsx@0.2.4
-local-test:webysr:react-material-ui-picker@1.0.0
+local-test:webysr:react-material-ui-picker@1.1.0
 localstorage@1.0.6-beta.11
 logging@1.0.9-beta.11
 meteor@1.1.11-beta.11
@@ -57,4 +57,4 @@ webapp@1.2.5-beta.11
 webapp-hashing@1.0.6-beta.11
 webysr:googleapis-oauth2-client@1.0.0
 webysr:googleapis-pub@1.0.0
-webysr:react-material-ui-picker@1.0.0
+webysr:react-material-ui-picker@1.1.0

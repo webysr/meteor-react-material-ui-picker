@@ -1,18 +1,18 @@
 import React from 'react';
 import _ from 'lodash';
 import DriveFiles from './DriveFiles.jsx';
-import Dialog from 'material-ui/lib/dialog';
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Avatar from 'material-ui/lib/avatar';
-import FileFolder from 'material-ui/lib/svg-icons/file/folder';
-import EditorInsertDriveFile from 'material-ui/lib/svg-icons/editor/insert-drive-file';
-import KeyboardArrowRight from 'material-ui/lib/svg-icons/hardware/keyboard-arrow-right';
-import NavigationArrowBack from 'material-ui/lib/svg-icons/navigation/arrow-back';
-import FlatButton from 'material-ui/lib/flat-button';
-import IconButton from 'material-ui/lib/icon-button';
-import CircularProgress from 'material-ui/lib/circular-progress';
-import {blue500 as fileColor, grey400 as folderColor} from 'material-ui/lib/styles/colors';
+import Dialog from 'material-ui/Dialog';
+import List from 'material-ui/List/List';
+import ListItem from 'material-ui/List/ListItem';
+import Avatar from 'material-ui/Avatar';
+import FileFolder from 'material-ui/svg-icons/file/folder';
+import EditorInsertDriveFile from 'material-ui/svg-icons/editor/insert-drive-file';
+import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import CircularProgress from 'material-ui/CircularProgress';
+import {blue500 as fileColor, grey400 as folderColor} from 'material-ui/styles/colors';
 
 const MIME_TYPE_FOLDER = 'application/vnd.google-apps.folder';
 
