@@ -1,4 +1,4 @@
-# React Google Drive File Picker for Meteor (1.3-beta)
+# React Google Drive File Picker for Meteor (from 1.3.2)
 
 A Google Drive File Picker for Meteor built with React. Use your Meteor Google Service configuration and Google login for this easy to use File Picker. Don't forget to provide OAuth2 Scopes for Google Drive.
 **Use at your own risk. This package uses the new module loading features of Meteor 1.3. It won't be compatible with previous Meteor versions.**
