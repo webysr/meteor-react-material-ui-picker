@@ -14,7 +14,7 @@ Package.onUse(function(api) {
   api.use('webysr:googleapis-pub@1.0.0');
 
   api.addFiles(['server/driveFilesPub.js'], 'server');
-  api.mainModule('client/FilePicker.jsx', 'client');
+  api.mainModule('client/FilePicker.js', 'client');
 });
 
 Package.onTest(function(api) {

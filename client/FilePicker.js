@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import DriveFiles from './DriveFiles.jsx';
+import DriveFiles from './DriveFiles';
 import Dialog from 'material-ui/Dialog';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
